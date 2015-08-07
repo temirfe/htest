@@ -4,5 +4,5 @@ $this->title = 'HyperHuman - Бесплатная онлайн игра';
 $uid=Yii::$app->user->identity->id;
 ?>
 <div class="site-index">
-
+edited from github website
 </div>
