@@ -18,7 +18,8 @@
         "yiisoft/yii2": ">=2.0.4",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "vova07/yii2-imperavi-widget": "*"
+        "vova07/yii2-imperavi-widget": "*",
+        "yiisoft/yii2-elasticsearch": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

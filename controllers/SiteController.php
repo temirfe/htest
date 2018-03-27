@@ -51,12 +51,12 @@ class SiteController extends Controller
                 'url' => 'http://hh.loc/web/redactor-images/', // Directory URL address, where files are stored.
                 'path' => '@webroot/redactor-images' // Or absolute path to directory where files are stored.
             ],
-            'images-get' => [
+            /*'images-get' => [
                 'class' => 'vova07\imperavi\actions\GetAction',
                 'url' => 'http://hh.loc/web/redactor-images/', // Directory URL address, where files are stored.
                 'path' => '@webroot/redactor-images', // Or absolute path to directory where files are stored.
                 'type' => GetAction::TYPE_IMAGES,
-            ],
+            ],*/
             'file-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
                 'url' => 'http://hh.loc/web/redactor-files/', // Directory URL address, where files are stored.
@@ -102,11 +102,19 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        if (
+            $model->load(Yii::$app->request->post())
+            //&& $model->contact(Yii::$app->params['adminEmail'])
+            )
 
-            return $this->refresh();
-        } else {
+        {
+            var_dump(Yii::$app->request->post());
+            //Yii::$app->session->setFlash('contactFormSubmitted');
+
+            //return $this->refresh();
+        }
+        else
+        {
             return $this->render('contact', [
                 'model' => $model,
             ]);

@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Page;
 use app\models\PageSearch;
+use yii\base\Security;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\PageElastic;
 
 /**
  * PageController implements the CRUD actions for Page model.
@@ -18,7 +20,7 @@ class PageController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
@@ -117,5 +119,64 @@ class PageController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionIndexify()
+    {
+        $dao=Yii::$app->db;
+        $rows=$dao->createCommand("SELECT * FROM Page")->queryAll();
+        PageElastic::createIndex();
+        foreach($rows as $row){
+            $elastic = new PageElastic();
+            $elastic->primaryKey=$row['id'];
+            $elastic->id=$row['id'];
+            $elastic->title=$row['title'];
+            $elastic->text=$row['text'];
+            $elastic->date=$row['date'];
+            if ($elastic->insert()) {
+                echo "Added Successfully <br />";
+            } else {
+                echo "Error";
+            }
+        }
+    }
+
+    public function actionDelastic(){
+        $row=PageElastic::get(5);
+        $row->delete();
+    }
+
+    public function actionUpdastic(){
+        $row=PageElastic::get(5);
+        $row->title='love is love';
+        $row->update();
+    }
+
+    public function actionQuestic(){
+        $result = PageElastic::find()->query(["match" => ["title" => "love"]])->one();
+        foreach($result as $key=>$value){
+            echo $key."= > ".$value."<br />";
+        }
+    }
+
+
+    /**
+     * Testing pjax
+     */
+    public function actionXajp()
+    {
+        $model = new Page();
+        $get=Yii::$app->request->get();
+        $model->load($get);
+        if(!$model->title && !empty($get['title'])){$model->title=$get['title'];}
+        
+        return $this->render('xajp', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionDate()
+    {
+        return $this->render('date', ['response' => date('Y-M-d')]);
     }
 }

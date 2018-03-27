@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\assets;
+namespace app\components\hello;
 
 use yii\web\AssetBundle;
 
@@ -13,18 +13,18 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class HelloAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/components/hello/assets';
     public $css = [
-        'css/site.css',
+        'hello.css',
     ];
     public $js = [
-        'js/site.js'
+        'hello.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'yii\web\JqueryAsset',
     ];
 }

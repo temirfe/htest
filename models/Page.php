@@ -28,7 +28,7 @@ class Page extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'text'], 'required'],
+            [['title'], 'required'],
             [['text'], 'string'],
             [['date'], 'safe'],
             [['title'], 'string', 'max' => 255]
